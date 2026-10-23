@@ -231,10 +231,28 @@ def get_llm(model: Optional[str] = None, temperature: float = 0.0):
             google_api_key=api_key
         )
 
+    elif provider == 'anthropic':
+        from langchain_anthropic import ChatAnthropic
+
+        api_key = os.getenv('ANTHROPIC_API_KEY')
+        if not api_key:
+            raise ValueError(
+                "ANTHROPIC_API_KEY não configurada no .env\n"
+                "Obtenha uma chave em: https://platform.claude.com/settings/keys"
+            )
+
+        # A API da Anthropic recusa temperature/top_p/top_k (HTTP 400) desde
+        # 2026-10-21, por isso o parâmetro não é repassado aqui.
+        return ChatAnthropic(
+            model=model_name,
+            max_tokens=16000,
+            api_key=api_key
+        )
+
     else:
         raise ValueError(
             f"Provider '{provider}' não suportado.\n"
-            f"Use 'openai' ou 'google' na variável LLM_PROVIDER do .env"
+            f"Use 'openai', 'google' ou 'anthropic' na variável LLM_PROVIDER do .env"
         )
 
 
