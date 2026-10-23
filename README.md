@@ -40,8 +40,9 @@ Projeto que faz **pull** de um prompt de baixa qualidade do LangSmith Prompt Hub
 > ✅ **APROVADO** — todas as 5 métricas ≥ 0.8 nas três iterações executadas.
 
 - **Prompt publicado (público):** https://smith.langchain.com/hub/jasonlopes/bug_to_user_story_v2
-- **Dataset público com os experimentos:** `<link gerado por Client().share_dataset(...)>`
+- **Dataset público com os experimentos (abre sem login):** https://smith.langchain.com/public/eb02059a-1b04-403d-a382-274bf878fffa/d
 - **Modelos:** `claude-opus-5-5` para responder e para avaliar (provider `anthropic`)
+- **Custo real:** US$ 0,66 a 0,81 por rodada de avaliação (≈ US$ 2,15 nas 3 iterações)
 
 ### Notas da versão final (iteração 3)
 
@@ -70,18 +71,42 @@ O prompt v1 não foi avaliado nesta execução (o `evaluate.py` avalia apenas o 
 - **Iteração 2 → 3:** a regra passou a ser restritiva e explícita (o que pode e o que não pode ser criado). A Precision voltou para 0.90 e os marcadores em aberto não reapareceram.
 - **Variação entre execuções:** a API da Anthropic não aceita `temperature`, então diferenças de ±0.02 entre rodadas são ruído. A iteração 3 foi mantida como versão final por ter regras mais claras com notas equivalentes às da iteração 1.
 
-Links dos experimentos (acesso restrito ao workspace):
-- Iteração 1: https://smith.langchain.com/o/68f3a480-65da-4aa4-917c-b406c8bd3e6a/datasets/f621990b-20b5-4380-8299-90675edcc27c/compare?selectedSessions=0e39d5e6-c30e-4c27-8d58-5ff4b8f5db6c
-- Iteração 2: https://smith.langchain.com/o/68f3a480-65da-4aa4-917c-b406c8bd3e6a/datasets/f621990b-20b5-4380-8299-90675edcc27c/compare?selectedSessions=7a747fde-27c9-4281-beaf-905bac74c330
-- Iteração 3: https://smith.langchain.com/o/68f3a480-65da-4aa4-917c-b406c8bd3e6a/datasets/f621990b-20b5-4380-8299-90675edcc27c/compare?selectedSessions=3d3b2ac0-fb22-4cb9-aae2-26a71941be33
+Links dos experimentos (públicos, via dataset compartilhado):
+- Iteração 1: https://smith.langchain.com/public/eb02059a-1b04-403d-a382-274bf878fffa/d/compare?selectedSessions=0e39d5e6-c30e-4c27-8d58-5ff4b8f5db6c
+- Iteração 2: https://smith.langchain.com/public/eb02059a-1b04-403d-a382-274bf878fffa/d/compare?selectedSessions=7a747fde-27c9-4281-beaf-905bac74c330
+- Iteração 3 (final): https://smith.langchain.com/public/eb02059a-1b04-403d-a382-274bf878fffa/d/compare?selectedSessions=3d3b2ac0-fb22-4cb9-aae2-26a71941be33
 
 ### Screenshots
 
-Salvar em `docs/screenshots/` e referenciar aqui:
+**Experimentos do dataset — as 3 iterações com todas as métricas ≥ 0.8**
 
-- Dataset com 15 exemplos
-- Experimento v2 com notas ≥ 0.8
-- Tracing detalhado de 3 exemplos (um simples, um médio, um complexo)
+![Experimentos](docs/images/01-experimentos.png)
+
+**Dataset de avaliação com os 15 exemplos**
+
+![Dataset com 15 exemplos](docs/images/02-dataset-15-exemplos.png)
+
+**Experimento final (iteração 3) — notas por exemplo**
+
+![Experimento final](docs/images/03-experimento-final.png)
+
+**Comparação lado a lado das 3 iterações (A = 1, B = 2, C = 3)**
+
+![Comparação das iterações](docs/images/04-comparacao-iteracoes.png)
+
+**Tracing detalhado de 3 exemplos (entrada, saída, referência e as 5 notas)**
+
+Exemplo simples — botão de adicionar ao carrinho (F1 0.92, Precision 0.95):
+
+![Trace simples](docs/images/05-trace-simples.png)
+
+Exemplo médio — endpoint sem validação de permissões (segurança):
+
+![Trace médio](docs/images/06-trace-medio.png)
+
+Exemplo complexo — checkout com 4 falhas críticas (XSS, gateway, race condition, UX):
+
+![Trace complexo](docs/images/07-trace-complexo.png)
 
 ### Comparação v1 × v2
 
